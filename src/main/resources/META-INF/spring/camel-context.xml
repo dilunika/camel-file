@@ -12,7 +12,9 @@
 			place - see the 'noop' flag) then transform to PurchaseOrder data structure -->
 		<camel:route>
 			<camel:from uri="file:src/orders?noop=true" />
-			<camel:to uri="bean:fileToPOTransformer" />
+			<camel:transform>
+				<camel:method bean="fileToPOTransformer" />
+			</camel:transform>
 			<camel:to uri="bean:itemWiseAggregator" />
 			<convertBodyTo type="java.lang.String"/>
 			<camel:to uri="file:src/processed?fileName=${file:name.noext}.done" />
